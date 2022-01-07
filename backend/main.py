@@ -1,4 +1,4 @@
-from typing import Collection
+from model import NftCollection
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -31,21 +31,21 @@ async def get_collections():
     response = await fetch_all_collections()
     return response
 
-@app.get("/api/collection{tokenId}", response_model=Collection)
+@app.get("/api/collection{tokenId}", response_model=NftCollection)
 async def get_collection_by_id(tokenId):
     response = fetch_one_collection(tokenId)
     if response:
         return response
     raise HTTPException(404, f"No Collection with the id: {tokenId}")
 
-@app.post("/api/collection", response_model=Collection)
-async def post_collection(collection: Collection):
+@app.post("/api/collection", response_model=NftCollection)
+async def post_collection(collection: NftCollection):
     response = await create_collection(collection.dict())
     if response:
         return response
     raise HTTPException(400, "Something went wrong")
 
-@app.put("/api/collection{tokenId}", response_model=Collection)
+@app.put("/api/collection{tokenId}", response_model=NftCollection)
 async def put_collection(tokenId: str, name: str, imgPath: str):
     response = await update_collection(tokenId, name, imgPath)
     if response:
