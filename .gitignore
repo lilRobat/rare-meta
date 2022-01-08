@@ -13,7 +13,7 @@ frontend/build
 
 # misc
 backend/__pycache__
-backend/imgs
+backend/static/imgs/*
 .DS_Store
 .env.local
 .env.development.local

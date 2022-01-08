@@ -23,7 +23,7 @@ async def create_collection(nftCollection):
 
 async def update_collection(tokenId, name, imgPath):
     await collection.update_one({"tokenId": tokenId}, {"$set": {
-        "name": tokenId,
+        "name": name,
         "imgPath": imgPath
     }})
     document = await collection.find_one({"tokenId": tokenId})

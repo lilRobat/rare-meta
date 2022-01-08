@@ -1,10 +1,11 @@
 from model import NftCollection
 from fastapi import FastAPI, HTTPException, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 import shutil
 
 app = FastAPI()
-
+app.mount("/static", StaticFiles(directory="static"), name="static")
 origins = [
     'http://localhost:3000',
 ]
@@ -43,7 +44,7 @@ async def get_collection_by_id(tokenId):
 
 @app.post("/api/collection", response_model=NftCollection)
 async def post_collection(tokenId: str = Form(...), name: str = Form(...), img: UploadFile = File(...)):
-    imgPath= "./imgs/" + tokenId + ".png"
+    imgPath= "./static/imgs/" + tokenId + ".png"
     with open(imgPath, "wb+") as file_object:
         shutil.copyfileobj(img.file, file_object)
     nftCollection = {'tokenId': tokenId, 'name': name, 'imgPath': imgPath}
