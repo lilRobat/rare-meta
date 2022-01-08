@@ -16,8 +16,8 @@ async def fetch_all_collections():
         collections.append(NftCollection(**document))
     return collections
 
-async def create_collection(NftCollection):
-    document = NftCollection
+async def create_collection(nftCollection):
+    document = nftCollection
     result = await collection.insert_one(document)
     return document
 

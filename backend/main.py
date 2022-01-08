@@ -1,10 +1,13 @@
 from model import NftCollection
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
+import shutil
 
 app = FastAPI()
 
-origins = ['https://localhost:3000']
+origins = [
+    'http://localhost:3000',
+]
 
 from database import (
     fetch_one_collection,
@@ -26,7 +29,7 @@ app.add_middleware(
 def read_root():
     return {"Ping":"Pong"}
 
-@app.get("api/collections")
+@app.get("/api/collections")
 async def get_collections():
     response = await fetch_all_collections()
     return response
@@ -39,8 +42,12 @@ async def get_collection_by_id(tokenId):
     raise HTTPException(404, f"No Collection with the id: {tokenId}")
 
 @app.post("/api/collection", response_model=NftCollection)
-async def post_collection(collection: NftCollection):
-    response = await create_collection(collection.dict())
+async def post_collection(tokenId: str = Form(...), name: str = Form(...), img: UploadFile = File(...)):
+    imgPath= "./imgs/" + tokenId + ".png"
+    with open(imgPath, "wb+") as file_object:
+        shutil.copyfileobj(img.file, file_object)
+    nftCollection = {'tokenId': tokenId, 'name': name, 'imgPath': imgPath}
+    response = await create_collection(nftCollection)
     if response:
         return response
     raise HTTPException(400, "Something went wrong")
