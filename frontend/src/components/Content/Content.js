@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
+import CollectionCard from "../CollectionCard/CollectionCard";
+import List from '@mui/material/List';
 
 const Content = () => {
   const [collections, setCollections] = useState([])
@@ -18,32 +15,19 @@ const Content = () => {
   }, [])
   return (
     <div>
-      <li>
+      <List sx={{display: 'flex'}}>
         {
           collections.map((collection) => {
             return(
-              <Card sx={{ maxWidth: 345 }}>
-                <CardActionArea>
-                  <CardMedia
-                    component="img"
-                    height="140"
-                    image={collection.imgPath}
-                    alt="nft collection img"
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                      {collection.tokenId}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {collection.name}
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
+              <CollectionCard 
+                title={collection.name} 
+                imgPath={collection.imgPath} 
+                collectionId={collection.tokenId}
+              />
             )
           })
         }
-      </li>
+      </List>
     </div>
   )
 }
