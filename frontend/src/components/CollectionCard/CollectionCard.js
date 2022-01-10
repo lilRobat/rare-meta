@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 const CollectionCard = ({title, imgPath, collectionId}) => {
   return (
     <Card sx={{ maxWidth: 345, margin: 2, width: 250, height: 350 }}>
-      <CardActionArea component={Link} to="/questions">
+      <CardActionArea component={Link} to={`/collection/${collectionId}`}>
         <CardMedia
           component="img"
           height="250"
