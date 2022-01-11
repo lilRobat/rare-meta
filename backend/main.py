@@ -3,6 +3,7 @@ from fastapi import FastAPI, HTTPException, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 import shutil
+import requests
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -65,4 +66,12 @@ async def delete_collection(tokenId):
     response = await remove_collection(tokenId)
     if response:
         return "Succesfully deleted collection item."
+    raise HTTPException(404, f"No Collection with the id: {tokenId}")
+
+@app.get("/api/nfts/{tokenId}")
+async def get_nfts_by_id(tokenId: str):
+    response = requests.get(f"https://api.elrond.com/nfts?size=100&withOwner=true&collection={tokenId}")
+    data = response.json()
+    if response:
+        return data
     raise HTTPException(404, f"No Collection with the id: {tokenId}")
