@@ -70,7 +70,7 @@ async def delete_collection(tokenId):
 
 @app.get("/api/nfts/{tokenId}")
 async def get_nfts_by_id(tokenId: str):
-    response = requests.get(f"https://api.elrond.com/nfts?size=100&withOwner=true&collection={tokenId}")
+    response = requests.get(f"https://api.elrond.com/nfts?size=1000&withOwner=true&collection={tokenId}")
     data = response.json()
     if response:
         return data

@@ -3,8 +3,10 @@ import axios from "axios";
 import List from '@mui/material/List';
 import { useParams } from "react-router-dom";
 import NftCard from "../NftCard/NftCard";
+import { Pagination } from "@mui/material";
 const Collection = () => {
-  const [nfts, setNfts] = useState([])
+  const [nfts, setNfts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
   let params = useParams();
   useEffect(() => {
     const fetchNfts = async () => {
@@ -18,7 +20,7 @@ const Collection = () => {
     <div>
       <List>
         {
-          nfts.map((nft) => {
+          nfts.slice(currentPage*25, currentPage*25+25).map((nft) => {
             return(
               <NftCard
                 name={nft.name} 
@@ -29,6 +31,7 @@ const Collection = () => {
           })
         }
       </List>
+      <Pagination count={(nfts.length/25)-1} page={currentPage} onChange={(e,v) => setCurrentPage(v)} />
     </div>
   )
 }
