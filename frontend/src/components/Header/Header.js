@@ -9,7 +9,7 @@ const Header = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Button onClick={() => setOpen(true)}>Test</Button>
+        <Button sx={{float: "right"}}variant="contained" onClick={() => setOpen(true)}>Add Collection</Button>
         <AddCollection open={open} setOpen={setOpen} />
       </Toolbar>
     </AppBar>
